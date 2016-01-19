@@ -22,52 +22,52 @@ import junit.framework.Assert;
 import java.util.concurrent.Callable;
 
 public abstract class PollingCheck {
-	private static final long TIME_SLICE = 50;
-	private long mTimeout = 3000;
+    private static final long TIME_SLICE = 50;
+    private long mTimeout = 3000;
 
-	public PollingCheck() {
-	}
+    public PollingCheck() {
+    }
 
-	public PollingCheck(long timeout) {
-		mTimeout = timeout;
-	}
+    public PollingCheck(long timeout) {
+        mTimeout = timeout;
+    }
 
-	protected abstract boolean check();
+    protected abstract boolean check();
 
-	public static void check(CharSequence message, long timeout, Callable<Boolean> condition)
-			throws Exception {
-		while (timeout > 0) {
-			if (condition.call()) {
-				return;
-			}
+    public void run() {
+        if (check()) {
+            return;
+        }
 
-			Thread.sleep(TIME_SLICE);
-			timeout -= TIME_SLICE;
-		}
+        long timeout = mTimeout;
+        while (timeout > 0) {
+            try {
+                Thread.sleep(TIME_SLICE);
+            } catch (InterruptedException e) {
+                Assert.fail("unexpected InterruptedException");
+            }
 
-		Assert.fail(message.toString());
-	}
+            if (check()) {
+                return;
+            }
 
-	public void run() {
-		if (check()) {
-			return;
-		}
+            timeout -= TIME_SLICE;
+        }
 
-		long timeout = mTimeout;
-		while (timeout > 0) {
-			try {
-				Thread.sleep(TIME_SLICE);
-			} catch (InterruptedException e) {
-				Assert.fail("unexpected InterruptedException");
-			}
+        Assert.fail("unexpected timeout");
+    }
 
-			if (check()) {
-				return;
-			}
+    public static void check(CharSequence message, long timeout, Callable<Boolean> condition)
+            throws Exception {
+        while (timeout > 0) {
+            if (condition.call()) {
+                return;
+            }
 
-			timeout -= TIME_SLICE;
-		}
+            Thread.sleep(TIME_SLICE);
+            timeout -= TIME_SLICE;
+        }
 
-		Assert.fail("unexpected timeout");
-	}
+        Assert.fail(message.toString());
+    }
 }
