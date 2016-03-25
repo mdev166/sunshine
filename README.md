@@ -8,3 +8,8 @@ Obtain a key via the following [instructions](http://openweathermap.org/appid#us
 
 `MyOpenWeatherMapApiKey="<UNIQUE_API_KEY">`
 
+
+### Also needed is a 'google-services.json' config file for Google Cloud Messaging
+
+Obtain this file following these [instructions] (https://developers.google.com/cloud-messaging/android/client#get-config).
+
