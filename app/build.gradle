@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
-
+    compileSdkVersion 26
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.example.android.sunshine.app"
-        minSdkVersion 10
-        targetSdkVersion 21
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -24,9 +23,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.bumptech.glide:glide:3.5.2'
-    compile 'com.android.support:appcompat-v7:21.0.2'
-    compile 'com.android.support:support-annotations:21.0.0'
-    compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'com.google.android.gms:play-services-gcm:16.1.0'
 }
